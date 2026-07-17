@@ -14,7 +14,8 @@ Votre travail est le **graphe** : état, routage, validation humaine, boucle.
 ## Installation
 
 ```bash
-pip install -e .
+uv sync
+uv pip install -e .
 ```
 
 `search_docs` tourne en local (embeddings + BM25), aucune clé API requise pour ces outils. Ajoutez votre propre configuration pour le modèle de l'agent (selon votre fournisseur).
@@ -48,3 +49,35 @@ tools = [search_docs, run_python]
 ## Rendu
 
 Formulaire de soumission : https://forms.gle/KQ1C932dtEVFReJe9
+
+## Execution
+
+Créer un fichier `.env` à la racine avec au minimum :
+```
+LANGSMITH_TRACING
+LANGSMITH_ENDPOINT
+LANGSMITH_API_KEY
+LANGSMITH_PROJECT
+MISTRAL_API_KEY
+```
+
+### 3. LangGraph Studio (recommandé)
+
+```bash
+uv run langgraph dev
+```
+
+> Requiert un fichier `langgraph.json` à la racine pointant vers le graphe.
+
+Une fois LangSmith Studio ouvert dans le navigateur :
+- Se placer sur le chat
+- Converser avec l'agent
+- Le graphe se met en pause si l'outil run_python est utilisé. Indiquer : "Oui", "oui", "yes", "Yes", "YES", "True", "true", "TRUE", "1" pour valider l'execution
+
+### 4. Test en local
+
+Décommenter les dernières lignes de `src/agent_tools/__init__.py` puis :
+
+```bash
+uv run src/agent_tools/__init__.py
+```
